@@ -10,7 +10,7 @@ def get_first_p2(line: str, rev: bool = False) -> str | None :
 
     for index, char in enumerate(line):
         if char in NUMBERS:
-           return(char)
+           return char
         if char in numl_first:
             numl_indices: list[int] = [i for i, elem in enumerate(numl_first) if elem == char]
             for numl_index in numl_indices:
@@ -18,10 +18,10 @@ def get_first_p2(line: str, rev: bool = False) -> str | None :
                     return NUMBERS[numl_index]
     return None
 
-def part2(input: str) -> int:
+def part2(data: str) -> int:
     acc: int = 0
 
-    for line in input.splitlines():
+    for line in data.splitlines():
         first: str | None = get_first_p2(line)
         last: str | None = get_first_p2(line[::-1], rev=True)
         if first and last:
@@ -35,20 +35,20 @@ def get_first(line: str) -> str | None:
             return char
     return None
 
-def part1(input: str) -> int:
+def part1(data: str) -> int:
     acc: int = 0
 
-    for line in input.splitlines():
+    for line in data.splitlines():
         first: str | None = get_first(line)
         last: str | None = get_first(line[::-1])
         total: int = 0
         if first and last:
             total = int(first + last)
         acc += total
-    return (acc)
+    return acc
 
 if __name__ == "__main__":
-    input: str = sys.stdin.read()
+    data: str = sys.stdin.read()
 
-    print(f'Part1 solution is {part1(input)}')
-    print(f'Part2 solution is {part2(input)}')
+    print(f'Part1 solution is {part1(data)}')
+    print(f'Part2 solution is {part2(data)}')

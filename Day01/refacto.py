@@ -4,7 +4,7 @@ NUMBERS = '123456789'
 NUMLETTERS = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
 NUMLETTERS_REV = ['eno', 'owt', 'eerht', 'ruof', 'evif', 'xis', 'neves', 'thgie', 'enin']
 
-def get_first_p2(line: str, rev: bool = False) -> str :
+def get_first_p2(line: str, rev: bool = False) -> str | None :
     numl = NUMLETTERS_REV if rev else NUMLETTERS
     numl_first = [num[0] for num in numl]
 
@@ -16,29 +16,34 @@ def get_first_p2(line: str, rev: bool = False) -> str :
             for numl_index in numl_indices:
                 if (line[index: index + len(numl[numl_index])] == numl[numl_index]):
                     return NUMBERS[numl_index]
+    return None
 
 def part2(input: str) -> int:
     acc: int = 0
 
     for line in input.splitlines():
-        first: str = get_first_p2(line)
-        last: str = get_first_p2(line[::-1], rev=True)
-        total: int = int(first + last)
+        first: str | None = get_first_p2(line)
+        last: str | None = get_first_p2(line[::-1], rev=True)
+        if first and last:
+            total: int = int(first + last)
         acc += total
     return acc
 
-def get_first(line: str) -> str:
+def get_first(line: str) -> str | None:
     for char in line:
         if char in NUMBERS:
             return char
+    return None
 
 def part1(input: str) -> int:
     acc = 0
 
     for line in input.splitlines():
-        first: str = get_first(line)
-        last: str = get_first(line[::-1])
-        total = int(first + last)
+        first: str | None = get_first(line)
+        last: str | None = get_first(line[::-1])
+        total: int = 0
+        if first and last:
+            total = int(first + last)
         acc += total
     return (acc)
 

@@ -2,7 +2,7 @@ import sys
 
 NUMBERS = '123456789'
 NUMLETTERS = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-NUMLETTERS_REV = ['eno', 'owt', 'eerht', 'ruof', 'evif', 'xis', 'neves', 'thgie', 'enin']
+NUMLETTERS_REV = [word[::-1] for word in NUMLETTERS]
 
 def get_first_p2(line: str, rev: bool = False) -> str | None :
     numl = NUMLETTERS_REV if rev else NUMLETTERS

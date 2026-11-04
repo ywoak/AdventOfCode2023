@@ -11,7 +11,7 @@ def get_first_p2(line: str, rev: bool = False) -> str | None :
     for index, char in enumerate(line):
         if char in NUMBERS:
            return(char)
-        elif char in numl_first:
+        if char in numl_first:
             numl_indices = [i for i, elem in enumerate(numl_first) if elem == char]
             for numl_index in numl_indices:
                 if (line[index: index + len(numl[numl_index])] == numl[numl_index]):

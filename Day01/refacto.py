@@ -1,54 +1,43 @@
-import sys
+#import sys
+import fileinput
 
-NUMBERS = '123456789'
-NUMLETTERS = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-NUMLETTERS_REV = [word[::-1] for word in NUMLETTERS]
+NUMLETTERS: tuple[str, ...] = ('one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine')
+NUMLETTERS_REV: tuple[str, ...] = tuple(word[::-1] for word in NUMLETTERS)
 
-def get_first_p2(line: str, rev: bool = False) -> str | None :
-    numl: list[str] = NUMLETTERS_REV if rev else NUMLETTERS
-    numl_first: list[str] = [num[0] for num in numl]
+def get_first_elem(line: str, rev: bool = False, p2: bool = False) -> str | None:
+    numl: tuple[str, ...] = NUMLETTERS_REV if rev else NUMLETTERS
 
     for index, char in enumerate(line):
-        if char in NUMBERS:
-           return char
-        if char in numl_first:
-            numl_indices: list[int] = [i for i, elem in enumerate(numl_first) if elem == char]
-            for numl_index in numl_indices:
-                if (line[index: index + len(numl[numl_index])] == numl[numl_index]):
-                    return NUMBERS[numl_index]
-    return None
-
-def part2(data: str) -> int:
-    acc: int = 0
-
-    for line in data.splitlines():
-        first: str | None = get_first_p2(line)
-        last: str | None = get_first_p2(line[::-1], rev=True)
-        if first and last:
-            total: int = int(first + last)
-        acc += total
-    return acc
-
-def get_first(line: str) -> str | None:
-    for char in line:
-        if char in NUMBERS:
+        if char.isdigit(): #leaves out the 0 case, but unecessary for this one
             return char
+        if p2:
+            for i_num, num in enumerate(numl, start=1):
+                if line.startswith(num, index): #old line[index:], but add a copy each run
+                    return str(i_num)
+
     return None
 
-def part1(data: str) -> int:
-    acc: int = 0
+def line_value(line: str, p2: bool) -> int:
+    first: str | None = get_first_elem(line, p2=p2)
+    last: str | None = get_first_elem(line[::-1], rev=True, p2=p2)
 
-    for line in data.splitlines():
-        first: str | None = get_first(line)
-        last: str | None = get_first(line[::-1])
-        total: int = 0
-        if first and last:
-            total = int(first + last)
-        acc += total
-    return acc
+    if first and last:
+        return int(first + last)
+    return 0
+
+def solve(data: str, p2: bool = False) -> int:
+    '''
+    Old acc += total, total = first + last
+    Generator + sum is more pytonic and crisps
+    '''
+    return sum (line_value(line, p2) for line in data.splitlines())
 
 if __name__ == "__main__":
-    data: str = sys.stdin.read()
+    #data: str = sys.stdin.read()
 
-    print(f'Part1 solution is {part1(data)}')
-    print(f'Part2 solution is {part2(data)}')
+    # Used to allow ipdb debugging by liberating the stdin
+    with fileinput.input() as lines:
+        data: str = "".join(lines)
+
+    print(f'Part1 solution is {solve(data)}')
+    print(f'Part2 solution is {solve(data, p2=True)}')

@@ -1,4 +1,6 @@
 import fileinput #noqa
+from operator import mul
+from functools import reduce
 
 goal = {
     'red': 12,
@@ -6,18 +8,19 @@ goal = {
     'blue': 14
 }
 
+def solve_p2(game: str) -> int:
+    id: int = int(game.split(':')[0].split(' ')[-1])
+    rgb: dict[str, int] = get_max_occurence(game)
+    return reduce(mul, rgb.values())
+
 def solve(game: str) -> int:
     id: int = int(game.split(':')[0].split(' ')[-1])
     rgb: dict[str, int] = get_max_occurence(game)
     impossible: bool = False
-    print(f'{game =}\n{id =}\n{rgb =}\n')
     for color, num in goal.items():
         if rgb[color] > num:
             impossible = True
     return 0 if impossible else id
-
-def part2(data: str) -> int:
-    return 0
 
 def get_max_occurence(game: str) -> dict[str, int]:
     rgb: dict[str, int] = {
@@ -36,6 +39,9 @@ def get_max_occurence(game: str) -> dict[str, int]:
 
     return rgb
 
+def part2(games: str) -> int:
+    return sum(solve_p2(game) for game in games.splitlines())
+
 def part1(games: str) -> int:
     return sum(solve(game) for game in games.splitlines())
 
@@ -45,4 +51,4 @@ if __name__ == "__main__":
         data: str = "".join(lines)
 
     print(f'Part1 solution is {part1(data)}')
-    #print(f'Part2 solution is {part2(data)}')
+    print(f'Part2 solution is {part2(data)}')

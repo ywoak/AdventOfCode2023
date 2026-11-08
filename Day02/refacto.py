@@ -1,7 +1,7 @@
 import fileinput #noqa
 import math
 
-GOAL = {
+GOAL: dict[str, int] = {
     'red': 12,
     'green': 13,
     'blue': 14
@@ -10,11 +10,8 @@ GOAL = {
 def solve(game: str) -> int:
     game_id: int = int(game.split(':')[0].split()[-1])
     rgb: dict[str, int] = get_max_occurrence(game)
-    impossible: bool = False
-    for color, num in GOAL.items():
-        if rgb[color] > num:
-            impossible = True
-    return 0 if impossible else game_id
+    possible: bool = all(rgb[color] <= limit for color, limit in GOAL.items())
+    return game_id if possible else 0
 
 def get_max_occurrence(game: str) -> dict[str, int]:
     rgb: dict[str, int] = {

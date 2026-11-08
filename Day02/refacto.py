@@ -8,13 +8,13 @@ GOAL = {
 }
 
 def solve(game: str) -> int:
-    id: int = int(game.split(':')[0].split(' ')[-1])
+    game_id: int = int(game.split(':')[0].split()[-1])
     rgb: dict[str, int] = get_max_occurrence(game)
     impossible: bool = False
     for color, num in GOAL.items():
         if rgb[color] > num:
             impossible = True
-    return 0 if impossible else id
+    return 0 if impossible else game_id
 
 def get_max_occurrence(game: str) -> dict[str, int]:
     rgb: dict[str, int] = {
@@ -23,9 +23,9 @@ def get_max_occurrence(game: str) -> dict[str, int]:
         'blue': 0
     }
 
-    sets = game.split(':')[1].strip().split(';')
-    for set in sets:
-        for dice in set.split(','):
+    game_sets = game.split(':')[1].strip().split(';')
+    for game_set in game_sets:
+        for dice in game_set.split(','):
             num, color = dice.split()
             rgb[color] = max(rgb[color], int(num))
 

@@ -26,10 +26,8 @@ def get_max_occurence(game: str) -> dict[str, int]:
     sets = game.split(':')[1].strip().split(';')
     for set in sets:
         for dice in set.split(','):
-            d_split = dice.strip().split(' ')
-            color: str = d_split[1]
-            num: int = int(d_split[0])
-            rgb[color] = max(rgb[color], num)
+            num, color = dice.split()
+            rgb[color] = max(rgb[color], int(num))
 
     return rgb
 

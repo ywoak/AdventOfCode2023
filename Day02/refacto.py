@@ -1,15 +1,11 @@
 import fileinput #noqa
-from operator import mul
-from functools import reduce
+import math
 
 goal = {
     'red': 12,
     'green': 13,
     'blue': 14
 }
-
-def solve_p2(game: str) -> int:
-    return reduce(mul, get_max_occurence(game).values())
 
 def solve(game: str) -> int:
     id: int = int(game.split(':')[0].split(' ')[-1])
@@ -38,7 +34,7 @@ def get_max_occurence(game: str) -> dict[str, int]:
     return rgb
 
 def part2(games: str) -> int:
-    return sum(solve_p2(game) for game in games.splitlines())
+    return sum(math.prod(get_max_occurence(game).values()) for game in games.splitlines())
 
 def part1(games: str) -> int:
     return sum(solve(game) for game in games.splitlines())

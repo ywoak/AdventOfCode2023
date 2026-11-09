@@ -43,6 +43,7 @@ def part1(data: str) -> int:
 
     part_number_added = False
     for x, line in enumerate(grid):
+        part_number_added = False
         for y, c in enumerate(line):
             if part_number_added and c.isdigit():
                 continue

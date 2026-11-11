@@ -1,6 +1,24 @@
-import fileinput #noqa
+import fileinput
 
-def line_value(line: str) -> int:
+#import re
+
+#from string import ascii_lowercase, ascii_uppercase, ascii_letters
+#from string import digits, hexdigits, punctuation
+
+#from math import prod, gcd, lcd, inf
+
+#from collections import Counter, deque, defaultdict
+#import heapq
+
+#from itertools import product, combinations, permutations
+#from itertools import accumulate, pairwise, batched, groupby
+#from itertools import chain, count, cycle, repeat, islice
+#from itertools import takewhile, dropwhile
+
+#from functools import cache, reduce, cmp_to_key
+#import operator
+
+def parse(line: str) -> int:
     return 0
 
 def part2(data: str) -> int:
